@@ -1,16 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { Container, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { debounce } from 'lodash';
 
 // SearchBar component handles the search input, search button, and play/pause button
 const SearchBar = ({ searchInput, setSearchInput, handleSearch, handleKeyDown, isPlaying, playAudio }) => {
-  const debouncedSetSearchInput = useCallback(
-    debounce((value) => {
-      setSearchInput(value);
-    }, 100), // Adjust delay as needed
-    []
-  );
+  // Use useMemo to create a debounced version of setSearchInput
+  const debouncedSetSearchInput = useMemo(() => debounce((value) => {
+    setSearchInput(value);
+  }, 100), [setSearchInput]); // Adjust delay as needed
 
   const handleInputChange = (e) => {
     debouncedSetSearchInput(e.target.value);
